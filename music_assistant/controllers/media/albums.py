@@ -109,6 +109,7 @@ class AlbumsController(MediaControllerBase[Album]):
         offset: int = 0,
         order_by: str = "sort_name",
         provider: str | list[str] | None = None,
+        genre_filter: list[int] | None = None,
         extra_query: str | None = None,
         extra_query_params: dict[str, Any] | None = None,
         album_types: list[AlbumType] | None = None,
@@ -121,6 +122,7 @@ class AlbumsController(MediaControllerBase[Album]):
         :param offset: Number of items to skip.
         :param order_by: Order by field (e.g. 'sort_name', 'timestamp_added').
         :param provider: Filter by provider instance ID or domain (single string or list).
+        :param genre_filter: Filter by genre library item IDs (list of integers).
         :param extra_query: Additional SQL query string.
         :param extra_query_params: Additional query parameters.
         :param album_types: Filter by album types.
@@ -165,6 +167,7 @@ class AlbumsController(MediaControllerBase[Album]):
             offset=offset,
             order_by=order_by,
             provider_filter=self._ensure_provider_filter(provider),
+            genre_filter=genre_filter,
             extra_query_parts=extra_query_parts,
             extra_query_params=extra_query_params,
             extra_join_parts=extra_join_parts,
@@ -192,6 +195,7 @@ class AlbumsController(MediaControllerBase[Album]):
                 limit=remaining_limit,
                 order_by=order_by,
                 provider_filter=self._ensure_provider_filter(provider),
+                genre_filter=genre_filter,
                 extra_query_parts=extra_query_parts,
                 extra_query_params=extra_query_params,
                 extra_join_parts=extra_join_parts,

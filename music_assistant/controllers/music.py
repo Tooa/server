@@ -48,7 +48,6 @@ from music_assistant.constants import (
     DB_TABLE_ALBUMS,
     DB_TABLE_ARTISTS,
     DB_TABLE_AUDIOBOOKS,
-    DB_TABLE_GENRE_ALIASES,
     DB_TABLE_GENRES,
     DB_TABLE_LOUDNESS_MEASUREMENTS,
     DB_TABLE_PLAYLISTS,
@@ -96,7 +95,7 @@ CONF_RESET_DB = "reset_db"
 DEFAULT_SYNC_INTERVAL = 12 * 60  # default sync interval in minutes
 CONF_SYNC_INTERVAL = "sync_interval"
 CONF_DELETED_PROVIDERS = "deleted_providers"
-DB_SCHEMA_VERSION: Final[int] = 23
+DB_SCHEMA_VERSION: Final[int] = 24
 
 CACHE_CATEGORY_LAST_SYNC: Final[int] = 9
 
@@ -2197,20 +2196,7 @@ class MusicController(CoreController):
             [timestamp_modified] INTEGER NOT NULL DEFAULT 0,
             [search_name] TEXT NOT NULL,
             [search_sort_name] TEXT NOT NULL,
-            [track_ids] json DEFAULT '[]',
-            [album_ids] json DEFAULT '[]',
-            [artist_ids] json DEFAULT '[]',
-            [playlist_ids] json DEFAULT '[]',
-            [podcast_ids] json DEFAULT '[]',
-            [audiobook_ids] json DEFAULT '[]'
-            );"""
-        )
-        await self.database.execute(
-            f"""
-            CREATE TABLE IF NOT EXISTS {DB_TABLE_GENRE_ALIASES}(
-            [genre_id] INTEGER NOT NULL,
-            [alias] TEXT NOT NULL,
-            UNIQUE(genre_id, alias)
+            [genre_mappings] json DEFAULT '{{}}'
             );"""
         )
 
